@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MediCare Advanced Clinic | Your Health, Our Priority</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0b1f3a;
+    --blue: #1a6fcf;
+    --blue-light: #0ea5e9;
+    --blue-pale: #dbeeff;
+    --blue-ghost: #f0f7ff;
+    --text: #0f2a4f;
+    --muted: #4a6b8a;
+    --border: #d4e4f5;
+    --white: #ffffff;
+    --bg: #f8fbff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'DM Sans',sans-serif; background:#fff; color:var(--text); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:999;
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;
+    transition:all .35s ease;
+    height:68px;
+  }
+  nav.scrolled { border-color:#e0edf5; box-shadow:0 2px 24px rgba(0,60,120,.08); }
+  .nav-inner {
+    max-width:1120px; margin:0 auto; padding:0 24px;
+    height:68px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo { display:flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none; }
+  .logo-icon {
+    width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
+  .logo-text-main { font-family:'Playfair Display',serif; font-weight:800; font-size:19px; color:var(--navy); letter-spacing:-.3px; }
+  .logo-text-sub { font-size:10px; color:#6b91b8; letter-spacing:1.5px; text-transform:uppercase; margin-top:-2px; }
+  .nav-links { display:flex; gap:4px; align-items:center; }
+  .nav-link {
+    background:transparent; border:none; cursor:pointer;
+    padding:8px 18px; border-radius:8px;
+    font-family:'DM Sans',sans-serif; font-weight:400; font-size:15px; color:#3d5a7a;
+    transition:all .2s;
+  }
+  .nav-link.active, .nav-link:hover { background:#e8f1fb; color:var(--blue); font-weight:600; }
+  .nav-cta {
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    border:none; cursor:pointer; padding:9px 22px; border-radius:50px;
+    font-family:'DM Sans',sans-serif; font-weight:700; font-size:14px; color:#fff;
+    margin-left:8px; box-shadow:0 4px 14px rgba(30,111,207,.3);
+    transition:all .25s;
+  }
+  .nav-cta:hover { transform:translateY(-1px); box-shadow:0 8px 22px rgba(30,111,207,.4); }
+  .hamburger {
+    display:none; background:none; border:none;
+    font-size:22px; cursor:pointer; color:var(--blue);
+  }
+  .mobile-menu {
+    display:none; background:#fff;
+    border-top:1px solid #e0eaf5; padding:12px 24px 16px;
+  }
+  .mobile-menu.open { display:block; }
+  .mobile-link {
+    display:block; padding:12px 0; border-bottom:1px solid #f0f6ff;
+    font-family:'DM Sans',sans-serif; font-size:16px; color:#3d5a7a;
+    cursor:pointer; background:none; border-left:none; border-right:none; border-top:none; width:100%; text-align:left;
+  }
+  .mobile-link.active { color:var(--blue); font-weight:700; }
+
+  /* PAGES */
+  .page { display:none; padding-top:68px; }
+  .page.active { display:block; }
+
+  /* HERO */
+  .hero {
+    min-height:calc(100vh - 68px);
+    background:linear-gradient(135deg,#f0f7ff 0%,#e4f1fd 50%,#d8eeff 100%);
+    display:flex; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .hero-blob1 {
+    position:absolute; top:8%; right:-8%; width:520px; height:520px;
+    border-radius:50%; background:rgba(30,111,207,.05); pointer-events:none;
+  }
+  .hero-blob2 {
+    position:absolute; bottom:-8%; left:-6%; width:420px; height:420px;
+    border-radius:50%; background:rgba(14,165,233,.06); pointer-events:none;
+  }
+  .hero-inner {
+    max-width:1120px; margin:0 auto; padding:60px 24px;
+    display:grid; grid-template-columns:1fr 1fr; gap:60px;
+    align-items:center; position:relative; z-index:1;
+  }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--blue-pale); border-radius:50px;
+    padding:6px 18px; margin-bottom:24px;
+  }
+  .hero-badge span { color:var(--blue); font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  .hero h1 {
+    font-family:'Playfair Display',serif; font-size:clamp(38px,5vw,62px);
+    font-weight:800; color:var(--navy); line-height:1.1; margin-bottom:22px;
+  }
+  .hero h1 em { font-style:normal; color:var(--blue); }
+  .hero p {
+    font-size:18px; color:var(--muted); line-height:1.75;
+    margin-bottom:38px; max-width:460px;
+  }
+  .btn-primary {
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    border:none; cursor:pointer; padding:15px 32px; border-radius:50px;
+    font-family:'DM Sans',sans-serif; font-weight:700; font-size:16px; color:#fff;
+    box-shadow:0 8px 28px rgba(30,111,207,.35); transition:all .3s;
+    text-decoration:none; display:inline-block;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(30,111,207,.45); }
+  .btn-outline {
+    background:transparent; border:2px solid #bcd7f5; cursor:pointer;
+    padding:15px 32px; border-radius:50px;
+    font-family:'DM Sans',sans-serif; font-weight:600; font-size:16px; color:var(--blue);
+    transition:all .3s; display:inline-block; text-decoration:none;
+  }
+  .btn-outline:hover { background:var(--blue-ghost); }
+  .hero-btns { display:flex; gap:16px; flex-wrap:wrap; }
+  .hero-stats {
+    display:flex; gap:36px; margin-top:48px;
+    padding-top:36px; border-top:1px solid #c8dff4;
+  }
+  .hero-stat-num { font-family:'Playfair Display',serif; font-size:30px; font-weight:800; color:var(--blue); }
+  .hero-stat-label { font-size:13px; color:#6b91b8; margin-top:2px; }
+  .hero-visual {
+    display:flex; justify-content:center; position:relative;
+    animation: fadeInRight .9s cubic-bezier(.16,1,.3,1) .2s both;
+  }
+  .hero-blob-main {
+    width:clamp(260px,38vw,400px); height:clamp(310px,46vw,470px);
+    border-radius:40% 60% 60% 40% / 40% 40% 60% 60%;
+    background:linear-gradient(145deg,var(--blue),var(--blue-light),#38bdf8);
+    display:flex; align-items:center; justify-content:center;
+    font-size:110px; box-shadow:0 30px 80px rgba(30,111,207,.25);
+    position:relative;
+  }
+  .hero-badge-float {
+    position:absolute; bottom:-18px; right:-18px;
+    background:#fff; border-radius:16px; padding:12px 18px;
+    box-shadow:0 10px 32px rgba(0,0,0,.10);
+    display:flex; align-items:center; gap:12px;
+  }
+  .hero-badge-float-icon {
+    width:40px; height:40px; border-radius:50%;
+    background:#e8f5e9; display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  .hero-badge-float-title { font-weight:700; font-size:13px; color:var(--navy); }
+  .hero-badge-float-sub { font-size:11px; color:#6b91b8; }
+
+  /* SECTION BASICS */
+  section { padding:90px 24px; }
+  .section-inner { max-width:1120px; margin:0 auto; }
+  .section-tag {
+    font-size:13px; font-weight:700; color:var(--blue);
+    letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; display:block;
+  }
+  .section-tag.light { color:#7bbdf5; }
+  .section-h2 {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(26px,4vw,42px); font-weight:800;
+    color:var(--navy); margin-bottom:0;
+  }
+  .section-h2.white { color:#fff; }
+  .section-head { text-align:center; margin-bottom:56px; }
+
+  /* CARDS GRID */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+
+  /* SERVICE CARDS */
+  .svc-card {
+    background:var(--bg); border:1px solid #e0edf8;
+    border-radius:20px; padding:28px;
+    transition:all .3s; cursor:default;
+  }
+  .svc-card:hover { transform:translateY(-5px); box-shadow:0 18px 44px rgba(30,111,207,.12); border-color:#bcd7f5; }
+  .svc-card-icon { font-size:40px; margin-bottom:16px; }
+  .svc-card h3 { font-family:'DM Sans',sans-serif; font-size:18px; font-weight:700; color:var(--navy); margin-bottom:10px; }
+  .svc-card p { font-size:14px; color:#5a7a9a; line-height:1.7; }
+
+  /* TRUST SECTION */
+  .trust-section { background:linear-gradient(135deg,var(--navy),#1a3a70); }
+  .trust-card {
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+    border-radius:20px; padding:32px 26px;
+  }
+  .trust-card-icon { font-size:38px; margin-bottom:16px; }
+  .trust-card h3 { font-size:18px; font-weight:700; color:#fff; margin-bottom:10px; }
+  .trust-card p { font-size:14px; color:rgba(255,255,255,.6); line-height:1.7; }
+
+  /* TESTIMONIALS */
+  .testi-card {
+    background:#fff; border:1px solid #e0edf8; border-radius:20px;
+    padding:32px 28px; box-shadow:0 4px 20px rgba(0,60,120,.05);
+  }
+  .stars { color:#f59e0b; font-size:14px; letter-spacing:2px; margin-bottom:16px; }
+  .testi-card blockquote { font-size:15px; color:#3d5a7a; line-height:1.75; font-style:italic; margin-bottom:24px; }
+  .testi-author { display:flex; align-items:center; gap:12px; }
+  .avatar {
+    width:44px; height:44px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; font-size:16px; flex-shrink:0;
+  }
+  .author-name { font-weight:700; font-size:14px; color:var(--navy); }
+  .author-role { font-size:12px; color:#6b91b8; }
+
+  /* CTA BANNER */
+  .cta-banner { background:linear-gradient(135deg,var(--blue),var(--blue-light)); padding:60px 24px; }
+  .cta-inner { max-width:800px; margin:0 auto; text-align:center; }
+  .cta-inner h2 { font-family:'Playfair Display',serif; font-size:clamp(24px,3.5vw,36px); font-weight:800; color:#fff; margin-bottom:16px; }
+  .cta-inner p { font-size:17px; color:rgba(255,255,255,.85); margin-bottom:32px; }
+  .btn-white {
+    background:#fff; border:none; cursor:pointer; padding:15px 36px; border-radius:50px;
+    font-family:'DM Sans',sans-serif; font-weight:700; font-size:16px; color:var(--blue);
+    box-shadow:0 8px 28px rgba(0,0,0,.14); transition:all .3s; text-decoration:none; display:inline-block;
+  }
+  .btn-white:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(0,0,0,.2); }
+
+  /* ABOUT PAGE */
+  .about-hero { background:linear-gradient(135deg,#f0f7ff,#e4f1fd); padding:80px 24px 60px; text-align:center; }
+  .about-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(30px,5vw,52px); font-weight:800; color:var(--navy); margin-bottom:18px; }
+  .about-hero p { font-size:18px; color:var(--muted); max-width:580px; margin:0 auto; line-height:1.75; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .about-visual {
+    width:100%; aspect-ratio:4/3; background:linear-gradient(135deg,#dbeeff,#bcd7f5);
+    border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:100px;
+  }
+  .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:32px; }
+  .stat-card { background:var(--blue-ghost); border-radius:16px; padding:20px; }
+  .stat-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--blue); }
+  .stat-lbl { font-size:13px; color:#6b91b8; margin-top:4px; }
+  .doctor-card {
+    background:#fff; border:1px solid #e0edf8; border-radius:28px; padding:40px;
+    display:grid; grid-template-columns:auto 1fr; gap:48px;
+    align-items:start; box-shadow:0 8px 40px rgba(0,60,120,.07);
+  }
+  .doctor-avatar {
+    width:180px; height:220px; background:linear-gradient(145deg,var(--blue),var(--blue-light));
+    border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:80px; flex-shrink:0;
+  }
+  .doctor-name { font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .doctor-role { font-size:15px; color:var(--blue); font-weight:600; margin-bottom:20px; }
+  .doctor-bio { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:24px; }
+  .tag-list { display:flex; flex-wrap:wrap; gap:10px; }
+  .tag { background:#e8f1fb; color:var(--blue); border-radius:50px; padding:6px 14px; font-size:12px; font-weight:700; }
+  .achieve-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+  .achieve-card { background:var(--bg); border:1px solid #e0edf8; border-radius:18px; padding:28px 22px; text-align:center; }
+  .achieve-icon { font-size:38px; margin-bottom:14px; }
+  .achieve-title { font-weight:700; font-size:15px; color:var(--navy); margin-bottom:6px; }
+  .achieve-year { font-size:12px; color:#6b91b8; }
+
+  /* SERVICES PAGE */
+  .svc-full-card {
+    background:#fff; border:1px solid #e0edf8; border-radius:22px; overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,60,120,.04); transition:all .3s;
+  }
+  .svc-full-card:hover { transform:translateY(-5px); box-shadow:0 18px 44px rgba(30,111,207,.12); }
+  .svc-full-header { background:linear-gradient(135deg,#f0f7ff,#dbeeff); padding:28px 28px 20px; border-bottom:1px solid #e0edf8; }
+  .svc-full-header .icon { font-size:40px; margin-bottom:12px; }
+  .svc-full-header h3 { font-family:'Playfair Display',serif; font-size:22px; font-weight:800; color:var(--navy); }
+  .svc-full-body { padding:20px 28px 26px; }
+  .svc-full-body p { font-size:14px; color:#5a7a9a; line-height:1.75; margin-bottom:18px; }
+  .feature-tags { display:flex; flex-wrap:wrap; gap:8px; }
+  .ftag { background:var(--blue-ghost); color:var(--blue); border-radius:50px; padding:4px 12px; font-size:12px; font-weight:700; }
+
+  /* CONTACT PAGE */
+  .contact-hero { background:linear-gradient(135deg,#f0f7ff,#e4f1fd); padding:80px 24px 60px; text-align:center; }
+  .contact-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(30px,5vw,52px); font-weight:800; color:var(--navy); margin-bottom:18px; }
+  .contact-hero p { font-size:18px; color:var(--muted); max-width:500px; margin:0 auto; line-height:1.75; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .form-label { font-size:13px; font-weight:700; color:#3d5a7a; display:block; margin-bottom:8px; }
+  .form-input {
+    width:100%; padding:13px 16px; border-radius:12px;
+    border:1.5px solid #d4e4f5; font-family:'DM Sans',sans-serif;
+    font-size:15px; color:var(--navy); outline:none; background:var(--bg);
+    transition:border-color .2s;
+  }
+  .form-input:focus { border-color:var(--blue); }
+  textarea.form-input { resize:vertical; }
+  .form-group { margin-bottom:18px; }
+  .btn-submit {
+    width:100%; background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    border:none; cursor:pointer; padding:14px;
+    border-radius:12px; font-family:'DM Sans',sans-serif;
+    font-weight:700; font-size:16px; color:#fff;
+    box-shadow:0 6px 20px rgba(30,111,207,.3); transition:all .3s; margin-bottom:12px;
+  }
+  .btn-submit:hover { transform:translateY(-1px); }
+  .btn-wa {
+    width:100%; background:#25d366; border:none; cursor:pointer; padding:14px;
+    border-radius:12px; font-family:'DM Sans',sans-serif;
+    font-weight:700; font-size:16px; color:#fff;
+    box-shadow:0 6px 20px rgba(37,211,102,.3); transition:all .3s;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    text-decoration:none;
+  }
+  .btn-wa:hover { transform:translateY(-1px); }
+  .info-card {
+    display:flex; gap:16px; align-items:flex-start;
+    background:var(--bg); border:1px solid #e0edf8; border-radius:16px; padding:18px 20px;
+    margin-bottom:14px;
+  }
+  .info-icon { font-size:24px; flex-shrink:0; }
+  .info-lbl { font-size:12px; font-weight:700; color:#6b91b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .info-val { font-size:15px; color:var(--navy); }
+  .map-placeholder {
+    width:100%; height:200px;
+    background:linear-gradient(135deg,#dbeeff,#bcd7f5);
+    border-radius:20px; border:1px solid #e0edf8;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; margin-top:20px;
+  }
+  .map-placeholder span { font-size:44px; }
+  .map-placeholder p { font-size:14px; color:var(--blue); font-weight:600; }
+  .map-placeholder a { font-size:13px; color:var(--blue); text-decoration:underline; }
+  .success-banner {
+    display:none; background:#e8f5e9; border:1px solid #a5d6a7;
+    border-radius:12px; padding:14px 20px; margin-bottom:20px;
+    font-weight:600; color:#2e7d32; font-size:15px;
+  }
+  .success-banner.show { display:block; }
+
+  /* FOOTER */
+  footer { background:#0a1e38; padding:60px 24px 30px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:48px; }
+  .footer-brand { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .footer-brand-name { font-family:'Playfair Display',serif; font-weight:800; font-size:20px; color:#fff; }
+  .footer-desc { font-size:14px; color:rgba(255,255,255,.5); line-height:1.8; max-width:260px; }
+  .footer-col-title { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px; }
+  .footer-link { display:block; font-size:14px; color:rgba(255,255,255,.5); cursor:pointer; margin-bottom:10px; transition:color .2s; }
+  .footer-link:hover { color:#7bbdf5; }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-copy { font-size:13px; color:rgba(255,255,255,.3); }
+
+  /* CHATBOT */
+  .chatbot-wrapper { position:fixed; bottom:24px; right:24px; z-index:1100; }
+  .chatbot-toggle {
+    width:58px; height:58px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    border:none; cursor:pointer;
+    box-shadow:0 8px 30px rgba(30,111,207,.4);
+    font-size:24px; display:flex; align-items:center; justify-content:center;
+    transition:all .3s; position:relative;
+  }
+  .chatbot-toggle:hover { transform:scale(1.07); }
+  .chatbot-badge {
+    position:absolute; top:-4px; right:-4px;
+    width:18px; height:18px; background:#ef4444;
+    border-radius:50%; border:2px solid #fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; color:#fff; font-weight:700;
+  }
+  .chatbot-window {
+    width:340px; background:#fff; border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,60,120,.18);
+    border:1px solid #e0edf8; margin-bottom:12px;
+    overflow:hidden; display:none;
+    animation: slideUpChat .3s ease;
+  }
+  .chatbot-window.open { display:block; }
+  @keyframes slideUpChat { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .chatbot-header {
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    padding:16px 20px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .chatbot-header-left { display:flex; align-items:center; gap:10px; }
+  .chatbot-avatar {
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,.2);
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+  }
+  .chatbot-name { font-weight:700; font-size:14px; color:#fff; }
+  .chatbot-status { font-size:11px; color:rgba(255,255,255,.8); }
+  .chatbot-close {
+    background:rgba(255,255,255,.2); border:none; cursor:pointer;
+    color:#fff; width:28px; height:28px; border-radius:50%; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .chatbot-messages {
+    height:260px; overflow-y:auto; padding:16px;
+    display:flex; flex-direction:column; gap:10px; background:var(--bg);
+  }
+  .msg { display:flex; }
+  .msg.user { justify-content:flex-end; }
+  .msg-bubble {
+    max-width:82%; padding:10px 14px; font-size:13px; line-height:1.6;
+    border-radius:16px 16px 16px 4px; background:#fff;
+    color:var(--navy); border:1px solid #e0edf8;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+  }
+  .msg.user .msg-bubble {
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    color:#fff; border:none; border-radius:16px 16px 4px 16px;
+  }
+  .chatbot-options { padding:12px 14px; border-top:1px solid #e0edf8; background:#fff; }
+  .chatbot-options-label { font-size:11px; color:#6b91b8; margin-bottom:8px; text-align:center; }
+  .chat-option {
+    display:block; width:100%; margin-bottom:6px;
+    background:var(--blue-ghost); border:1px solid #bcd7f5; border-radius:50px;
+    padding:8px 14px; font-family:'DM Sans',sans-serif;
+    font-size:12px; font-weight:700; color:var(--blue);
+    cursor:pointer; text-align:left; transition:all .2s;
+  }
+  .chat-option:hover { background:var(--blue); color:#fff; }
+
+  /* ANIMATIONS */
+  @keyframes fadeInRight { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in-up { animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) both; }
+  .delay1 { animation-delay:.1s; }
+  .delay2 { animation-delay:.2s; }
+  .delay3 { animation-delay:.3s; }
+  .delay4 { animation-delay:.4s; }
+
+  /* RESPONSIVE */
+  @media(max-width:900px) {
+    .hero-inner { grid-template-columns:1fr; gap:40px; }
+    .hero-visual { order:-1; }
+    .two-col { grid-template-columns:1fr; gap:36px; }
+    .doctor-card { grid-template-columns:1fr; gap:24px; }
+    .doctor-avatar { width:100%; height:200px; }
+    .contact-grid { grid-template-columns:1fr; gap:40px; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .nav-links { display:none; }
+    .hamburger { display:block; }
+  }
+  @media(max-width:600px) {
+    .hero-stats { gap:20px; flex-wrap:wrap; }
+    .footer-grid { grid-template-columns:1fr; gap:28px; }
+    .stats-grid { grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" onclick="showPage('home')">
+      <div class="logo-icon">⚕️</div>
+      <div>
+        <div class="logo-text-main">MediCare</div>
+        <div class="logo-text-sub">Advanced Clinic</div>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-link active" onclick="showPage('home')">Home</button>
+      <button class="nav-link" onclick="showPage('about')">About</button>
+      <button class="nav-link" onclick="showPage('services')">Services</button>
+      <button class="nav-link" onclick="showPage('contact')">Contact</button>
+      <button class="nav-cta" onclick="showPage('contact')">Book Appointment</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobile()">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link active" onclick="showPage('home');toggleMobile()">Home</button>
+    <button class="mobile-link" onclick="showPage('about');toggleMobile()">About</button>
+    <button class="mobile-link" onclick="showPage('services');toggleMobile()">Services</button>
+    <button class="mobile-link" onclick="showPage('contact');toggleMobile()">Contact</button>
+  </div>
+</nav>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-blob1"></div>
+    <div class="hero-blob2"></div>
+    <div class="hero-inner">
+      <div class="fade-in-up">
+        <div class="hero-badge"><span>✓ NABH Accredited Clinic</span></div>
+        <h1>Your Health,<br><em>Our Priority</em></h1>
+        <p>Advanced care with trusted expertise. We combine modern medicine with compassionate service to deliver healthcare that truly makes a difference.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Book Appointment &rarr;</button>
+          <button class="btn-outline" onclick="showPage('services')">Our Services</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">20+</div><div class="hero-stat-label">Years Experience</div></div>
+          <div><div class="hero-stat-num">12K+</div><div class="hero-stat-label">Patients Treated</div></div>
+          <div><div class="hero-stat-num">15+</div><div class="hero-stat-label">Specialists</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-blob-main">
+          👨‍⚕️
+          <div class="hero-badge-float">
+            <div class="hero-badge-float-icon">✅</div>
+            <div>
+              <div class="hero-badge-float-title">98% Recovery Rate</div>
+              <div class="hero-badge-float-sub">Patient satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES OVERVIEW -->
+  <section style="background:#fff;">
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-tag">What We Offer</span>
+        <h2 class="section-h2">Our Specialties</h2>
+      </div>
+      <div class="cards-grid">
+        <div class="svc-card"><div class="svc-card-icon">🦷</div><h3>Dental Care</h3><p>Comprehensive dental services including cleaning, fillings, orthodontics, and cosmetic dentistry for a confident smile.</p></div>
+        <div class="svc-card"><div class="svc-card-icon">🦴</div><h3>Physiotherapy</h3><p>Evidence-based rehabilitation and physical therapy to restore mobility, reduce pain, and improve quality of life.</p></div>
+        <div class="svc-card"><div class="svc-card-icon">✨</div><h3>Dermatology</h3><p>Advanced skin treatments including acne care, anti-aging, laser therapy, and medical-grade facials.</p></div>
+        <div class="svc-card"><div class="svc-card-icon">🫀</div><h3>Cardiology</h3><p>Complete cardiac care with ECG, stress tests, consultations, and preventive health screenings.</p></div>
+        <div class="svc-card"><div class="svc-card-icon">🧠</div><h3>Neurology</h3><p>Expert neurological assessments and management for headaches, migraines, and nervous system disorders.</p></div>
+        <div class="svc-card"><div class="svc-card-icon">🩺</div><h3>General Medicine</h3><p>Holistic primary care — routine checkups, chronic disease management, and preventive health guidance.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="trust-section">
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-tag light">Trust & Excellence</span>
+        <h2 class="section-h2 white">Why Choose MediCare?</h2>
+      </div>
+      <div class="cards-grid">
+        <div class="trust-card"><div class="trust-card-icon">🏅</div><h3>NABH Accredited</h3><p>Certified by National Accreditation Board, ensuring the highest patient safety and quality standards.</p></div>
+        <div class="trust-card"><div class="trust-card-icon">👨‍⚕️</div><h3>15+ Specialists</h3><p>A multidisciplinary team of board-certified doctors across all major medical fields.</p></div>
+        <div class="trust-card"><div class="trust-card-icon">🕐</div><h3>Open 7 Days</h3><p>9 AM – 8 PM, every day. Because your health doesn't follow a schedule.</p></div>
+        <div class="trust-card"><div class="trust-card-icon">🔬</div><h3>In-house Lab</h3><p>Same-day diagnostics and reports from our fully equipped, NABL-certified laboratory.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="background:#f8fbff;">
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-tag">Patient Stories</span>
+        <h2 class="section-h2">What Our Patients Say</h2>
+      </div>
+      <div class="cards-grid">
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"The level of care here is exceptional. Dr. Mehta took time to explain everything clearly. The clinic feels world-class."</blockquote>
+          <div class="testi-author"><div class="avatar">P</div><div><div class="author-name">Priya Sharma</div><div class="author-role">Patient since 2021</div></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Best physiotherapy experience I've had. Completely recovered from a sports injury in just 6 weeks. Highly recommended!"</blockquote>
+          <div class="testi-author"><div class="avatar">R</div><div><div class="author-name">Rajan Verma</div><div class="author-role">Patient since 2020</div></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"The dental team is fantastic. I was anxious, but they made me feel completely comfortable. Brilliant results!"</blockquote>
+          <div class="testi-author"><div class="avatar">A</div><div><div class="author-name">Anita Gupta</div><div class="author-role">Patient since 2022</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <div class="cta-inner">
+      <h2>Ready to Take Charge of Your Health?</h2>
+      <p>Book a consultation today. Same-day appointments available.</p>
+      <button class="btn-white" onclick="showPage('contact')">Book Appointment Now &rarr;</button>
+    </div>
+  </div>
+
+</div><!-- /home -->
+
+<!-- ===================== ABOUT PAGE ===================== -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <span class="section-tag">About Us</span>
+    <h1>Trusted Care Since 2004</h1>
+    <p>MediCare Clinic has been a cornerstone of healthcare in the community for over two decades, combining cutting-edge medicine with heartfelt compassion.</p>
+  </div>
+
+  <section style="background:#fff;">
+    <div class="section-inner">
+      <div class="two-col">
+        <div class="about-visual">🏥</div>
+        <div>
+          <h2 class="section-h2" style="margin-bottom:20px;">Our Story</h2>
+          <p style="font-size:16px;color:var(--muted);line-height:1.85;margin-bottom:18px;">Founded in 2004 by Dr. Arjun Mehta, MediCare started as a small general practice with a simple mission: deliver honest, effective healthcare to every patient who walks through our doors.</p>
+          <p style="font-size:16px;color:var(--muted);line-height:1.85;margin-bottom:28px;">Today, we've grown into a multi-specialty clinic with 15+ doctors, state-of-the-art equipment, and an in-house diagnostic laboratory — but our values remain the same.</p>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-num">20+</div><div class="stat-lbl">Years of Service</div></div>
+            <div class="stat-card"><div class="stat-num">12K+</div><div class="stat-lbl">Patients Treated</div></div>
+            <div class="stat-card"><div class="stat-num">15+</div><div class="stat-lbl">Specialists</div></div>
+            <div class="stat-card"><div class="stat-num">98%</div><div class="stat-lbl">Satisfaction Rate</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#f8fbff;">
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-tag">Leadership</span>
+        <h2 class="section-h2">Meet Our Lead Physician</h2>
+      </div>
+      <div class="doctor-card">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div>
+          <div class="doctor-name">Dr. Arjun Mehta</div>
+          <div class="doctor-role">MBBS, MD, FRCP &nbsp;|&nbsp; Founder & Chief Medical Officer</div>
+          <p class="doctor-bio">With over 20 years of clinical experience, Dr. Mehta specializes in Internal Medicine and Cardiology. He trained at AIIMS Delhi and completed his fellowship at the Royal College of Physicians, London. He is passionate about patient education and preventive healthcare.</p>
+          <div class="tag-list">
+            <span class="tag">AIIMS Delhi Graduate</span>
+            <span class="tag">FRCP – London</span>
+            <span class="tag">20+ Years Experience</span>
+            <span class="tag">Cardiology Specialist</span>
+            <span class="tag">Health Educator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fff;">
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-tag">Recognition</span>
+        <h2 class="section-h2">Certifications & Achievements</h2>
+      </div>
+      <div class="achieve-grid">
+        <div class="achieve-card"><div class="achieve-icon">🏅</div><div class="achieve-title">NABH Accreditation</div><div class="achieve-year">2010 & Renewed</div></div>
+        <div class="achieve-card"><div class="achieve-icon">🌟</div><div class="achieve-title">Best Clinic Award – Bihar</div><div class="achieve-year">2019, 2022</div></div>
+        <div class="achieve-card"><div class="achieve-icon">📰</div><div class="achieve-title">Featured in Times Health</div><div class="achieve-year">2021</div></div>
+        <div class="achieve-card"><div class="achieve-icon">🎓</div><div class="achieve-title">ISO 9001:2015 Certified</div><div class="achieve-year">Since 2015</div></div>
+      </div>
+    </div>
+  </section>
+</div><!-- /about -->
+
+<!-- ===================== SERVICES PAGE ===================== -->
+<div id="page-services" class="page">
+  <div class="contact-hero">
+    <span class="section-tag">Our Expertise</span>
+    <h1>Medical Services</h1>
+    <p>Comprehensive care under one roof. All specialties. All under one trusted name.</p>
+  </div>
+
+  <section style="background:#fff;">
+    <div class="section-inner">
+      <div class="cards-grid">
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🦷</div><h3>Dental Care</h3></div>
+          <div class="svc-full-body"><p>From routine cleanings to complex restorations, our dental team offers complete oral healthcare. Services include fillings, crowns, root canals, teeth whitening, and Invisalign.</p><div class="feature-tags"><span class="ftag">✓ Teeth Whitening</span><span class="ftag">✓ Root Canal</span><span class="ftag">✓ Orthodontics</span><span class="ftag">✓ Implants</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🦴</div><h3>Physiotherapy</h3></div>
+          <div class="svc-full-body"><p>Our licensed physiotherapists design personalized recovery programs using modern techniques to restore function, reduce pain, and prevent re-injury.</p><div class="feature-tags"><span class="ftag">✓ Sports Rehab</span><span class="ftag">✓ Post-Surgery</span><span class="ftag">✓ Back & Neck Pain</span><span class="ftag">✓ Electrotherapy</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">✨</div><h3>Dermatology</h3></div>
+          <div class="svc-full-body"><p>Advanced skin health solutions led by experienced dermatologists. We treat everything from acne and eczema to anti-aging and laser skin resurfacing.</p><div class="feature-tags"><span class="ftag">✓ Laser Therapy</span><span class="ftag">✓ Acne Treatment</span><span class="ftag">✓ Chemical Peels</span><span class="ftag">✓ Skin Biopsy</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🫀</div><h3>Cardiology</h3></div>
+          <div class="svc-full-body"><p>Comprehensive cardiac evaluation and management. Our cardiologists offer preventive care, diagnostics, and chronic disease management for heart conditions.</p><div class="feature-tags"><span class="ftag">✓ ECG / Echo</span><span class="ftag">✓ Stress Test</span><span class="ftag">✓ Holter Monitor</span><span class="ftag">✓ Lipid Profile</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🧠</div><h3>Neurology</h3></div>
+          <div class="svc-full-body"><p>Expert neurological care for disorders of the brain, spine, and nervous system. Early diagnosis and personalized treatment plans for every patient.</p><div class="feature-tags"><span class="ftag">✓ Migraine Care</span><span class="ftag">✓ EEG Testing</span><span class="ftag">✓ Nerve Conduction</span><span class="ftag">✓ Memory Clinic</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🩺</div><h3>General Medicine</h3></div>
+          <div class="svc-full-body"><p>Your first point of contact for all health concerns. Our GPs manage acute illness, chronic conditions, and coordinate specialty referrals.</p><div class="feature-tags"><span class="ftag">✓ Annual Checkup</span><span class="ftag">✓ Diabetes Care</span><span class="ftag">✓ Hypertension</span><span class="ftag">✓ Vaccinations</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">👁️</div><h3>Ophthalmology</h3></div>
+          <div class="svc-full-body"><p>Full-spectrum eye care from routine vision testing to cataract and LASIK surgery consultations. Protect your sight with our expert team.</p><div class="feature-tags"><span class="ftag">✓ Vision Tests</span><span class="ftag">✓ Cataract</span><span class="ftag">✓ Glaucoma</span><span class="ftag">✓ LASIK Consult</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🧘</div><h3>Nutrition & Diet</h3></div>
+          <div class="svc-full-body"><p>Registered dietitians help you achieve your health goals through evidence-based nutritional counselling for weight management, diabetes, and more.</p><div class="feature-tags"><span class="ftag">✓ Weight Loss</span><span class="ftag">✓ Diabetic Diet</span><span class="ftag">✓ Sports Nutrition</span><span class="ftag">✓ Child Nutrition</span></div></div>
+        </div>
+
+        <div class="svc-full-card">
+          <div class="svc-full-header"><div class="icon">🩸</div><h3>Diagnostics Lab</h3></div>
+          <div class="svc-full-body"><p>Same-day results from our NABL-certified in-house laboratory. We offer 300+ tests including blood work, cultures, hormones, and imaging.</p><div class="feature-tags"><span class="ftag">✓ Blood Tests</span><span class="ftag">✓ Urine Analysis</span><span class="ftag">✓ Hormones</span><span class="ftag">✓ X-Ray & USG</span></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div><!-- /services -->
+
+<!-- ===================== CONTACT PAGE ===================== -->
+<div id="page-contact" class="page">
+  <div class="contact-hero">
+    <span class="section-tag">Get In Touch</span>
+    <h1>Contact Us</h1>
+    <p>We're here to help. Reach out to book an appointment or ask us anything.</p>
+  </div>
+
+  <section style="background:#fff;">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <!-- FORM -->
+        <div>
+          <h2 class="section-h2" style="margin-bottom:28px;">Send a Message</h2>
+          <div id="successBanner" class="success-banner">✅ Message sent! We'll get back to you within 2 hours.</div>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="fname" placeholder="Your full name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" id="fphone" placeholder="+91 XXXXX XXXXX"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Message</label>
+            <textarea class="form-input" id="fmsg" rows="5" placeholder="Describe your concern or ask for an appointment..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="submitForm()">Send Message &rarr;</button>
+          <a href="https://wa.me/919876543210?text=Hi%2C%20I%20want%20to%20book%20an%20appointment" target="_blank" class="btn-wa">
+            <span style="font-size:20px;">💬</span> WhatsApp – Book Appointment
+          </a>
+        </div>
+
+        <!-- INFO -->
+        <div>
+          <h2 class="section-h2" style="margin-bottom:28px;">Clinic Information</h2>
+          <div class="info-card"><div class="info-icon">📍</div><div><div class="info-lbl">Address</div><div class="info-val">42, Medicity Complex, Boring Road, Patna, Bihar – 800001</div></div></div>
+          <div class="info-card"><div class="info-icon">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+91 98765 43210</div></div></div>
+          <div class="info-card"><div class="info-icon">📧</div><div><div class="info-lbl">Email</div><div class="info-val">care@medicare-clinic.in</div></div></div>
+          <div class="info-card"><div class="info-icon">🕐</div><div><div class="info-lbl">Timings</div><div class="info-val">Monday – Sunday: 9:00 AM – 8:00 PM</div></div></div>
+          <div class="map-placeholder">
+            <span>🗺️</span>
+            <p>42, Medicity Complex, Patna</p>
+            <a href="https://maps.google.com/?q=Patna,Bihar" target="_blank">Open in Google Maps &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /contact -->
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div style="max-width:1120px;margin:0 auto;">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span style="font-size:24px;">⚕️</span><span class="footer-brand-name">MediCare</span></div>
+        <p class="footer-desc">Advanced healthcare with compassionate expertise. Serving Patna and surrounding areas since 2004.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <span class="footer-link" onclick="showPage('home')">Home</span>
+        <span class="footer-link" onclick="showPage('about')">About</span>
+        <span class="footer-link" onclick="showPage('services')">Services</span>
+        <span class="footer-link" onclick="showPage('contact')">Contact</span>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <span class="footer-link">Dental Care</span>
+        <span class="footer-link">Physiotherapy</span>
+        <span class="footer-link">Dermatology</span>
+        <span class="footer-link">Cardiology</span>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <span class="footer-link">+91 98765 43210</span>
+        <span class="footer-link">care@medicare-clinic.in</span>
+        <span class="footer-link">Patna, Bihar 800001</span>
+        <span class="footer-link">9 AM – 8 PM Daily</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 MediCare Advanced Clinic. All rights reserved.</span>
+      <span class="footer-copy">NABH Accredited &nbsp;|&nbsp; ISO 9001:2015</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== CHATBOT ===================== -->
+<div class="chatbot-wrapper">
+  <div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+      <div class="chatbot-header-left">
+        <div class="chatbot-avatar">⚕️</div>
+        <div>
+          <div class="chatbot-name">MediCare Assistant</div>
+          <div class="chatbot-status">🟢 Online now</div>
+        </div>
+      </div>
+      <button class="chatbot-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chatbot-messages" id="chatMessages">
+      <div class="msg">
+        <div class="msg-bubble">👋 Hi! How can I help you today? Choose an option below:</div>
+      </div>
+    </div>
+    <div class="chatbot-options">
+      <div class="chatbot-options-label">Quick options:</div>
+      <button class="chat-option" onclick="chatReply('📅 Book Appointment','You can book via WhatsApp at +91 98765 43210 or call us directly. We\'ll confirm your slot within 2 hours!')">📅 Book Appointment</button>
+      <button class="chat-option" onclick="chatReply('🕐 Clinic Timings','We are open Monday – Sunday, 9:00 AM to 8:00 PM. Walk-ins are welcome. For weekends, appointments are preferred.')">🕐 Clinic Timings</button>
+      <button class="chat-option" onclick="chatReply('💊 Services Available','We offer Dental Care, Physiotherapy, Dermatology, Cardiology, Neurology, General Medicine, Ophthalmology, Nutrition, and Diagnostics. Ask about any specific service!')">💊 Services Available</button>
+      <button class="chat-option" onclick="chatReply('📍 Location','We\'re at 42, Medicity Complex, Boring Road, Patna, Bihar – 800001. Easily accessible by auto and cab from the city center.')">📍 Location</button>
+      <button class="chat-option" onclick="chatReply('📞 Call Now','Our number is +91 98765 43210. Our receptionist will assist you immediately during clinic hours (9 AM – 8 PM).')">📞 Call Now</button>
+    </div>
+  </div>
+  <button class="chatbot-toggle" id="chatToggle" onclick="toggleChat()">
+    💬
+    <div class="chatbot-badge" id="chatBadge">1</div>
+  </button>
+</div>
+
+<script>
+  // PAGE ROUTING
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.mobile-link').forEach(l => l.classList.remove('active'));
+    const pages = ['home','about','services','contact'];
+    const idx = pages.indexOf(id);
+    if (idx > -1) {
+      document.querySelectorAll('.nav-link')[idx].classList.add('active');
+      document.querySelectorAll('.mobile-link')[idx].classList.add('active');
+    }
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  // MOBILE MENU
+  function toggleMobile() {
+    const m = document.getElementById('mobileMenu');
+    m.classList.toggle('open');
+  }
+
+  // STICKY NAV
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // CONTACT FORM
+  function submitForm() {
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const msg = document.getElementById('fmsg').value.trim();
+    if (!name || !phone || !msg) { alert('Please fill in all fields.'); return; }
+    const banner = document.getElementById('successBanner');
+    banner.classList.add('show');
+    document.getElementById('fname').value = '';
+    document.getElementById('fphone').value = '';
+    document.getElementById('fmsg').value = '';
+    setTimeout(() => banner.classList.remove('show'), 4000);
+  }
+
+  // CHATBOT
+  let chatOpen = false;
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chatbotWindow');
+    const btn = document.getElementById('chatToggle');
+    const badge = document.getElementById('chatBadge');
+    win.classList.toggle('open', chatOpen);
+    btn.innerHTML = chatOpen ? '✕' : '💬' + (badge ? '<div class="chatbot-badge" id="chatBadge" style="display:none">1</div>' : '');
+    if (chatOpen) {
+      document.getElementById('chatBadge') && (document.getElementById('chatBadge').style.display = 'none');
+    }
+  }
+
+  function chatReply(userText, botReply) {
+    const container = document.getElementById('chatMessages');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.innerHTML = '<div class="msg-bubble">' + userText + '</div>';
+    container.appendChild(userMsg);
+
+    setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'msg';
+      botMsg.innerHTML = '<div class="msg-bubble">' + botReply + '</div>';
+      container.appendChild(botMsg);
+      container.scrollTop = container.scrollHeight;
+    }, 500);
+
+    container.scrollTop = container.scrollHeight;
+  }
+</script>
+</body>
+</html>
